@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── 전역 폰트 ── */
+html, body, [class*="css"], .stMarkdown, .stText, button, input, textarea {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+/* ── 앱 배경 ── */
+.stApp { background-color: #F8FAFC; }
+
+/* ── 사이드바 ── */
+[data-testid="stSidebar"] {
+    background-color: #FFFFFF;
+    border-right: 1px solid #E2E8F0;
+}
+[data-testid="stSidebar"] > div:first-child { padding: 28px 20px; }
+
+/* ── 사이드바 섹션 제목 ── */
+.sb-section-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #94A3B8;
+    margin: 36px 0 14px 0;
+}
+
+/* ── 진료 상태 배지 (동적 색상은 CSS 변수로 주입) ── */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--status-bg);
+    color: var(--status-color);
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-top: 6px;
+}
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--status-color);
+    animation: var(--status-animation);
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+}
+
+/* ── 시간표 행 ── */
+.hour-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 0;
+    border-bottom: 1px solid #F1F5F9;
+    font-size: 0.93rem;
+}
+.hour-row:last-child { border-bottom: none; }
+.hour-label  { color: #64748B; }
+.hour-value  { font-size: 1.2rem; font-weight: 500; color: #1E293B; letter-spacing: 0.02em; }
+.hour-closed { font-weight: 600; color: #DC2626; }
+
+/* ── 응급 배너 ── */
+.emergency-strip {
+    background: #FFF1F2;
+    border: 1px solid #FECDD3;
+    border-left: 3px solid #DC2626;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.93rem;
+    color: #9F1239;
+    font-weight: 500;
+    margin-top: 4px;
+    margin-bottom: 20px;
+}
+
+/* ── 사이드바 버튼 ── */
+[data-testid="stSidebar"] .stButton > button {
+    background: transparent;
+    border: 1px solid #E2E8F0;
+    color: #64748B;
+    font-size: 0.90rem;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 6px 12px;
+    transition: all 0.15s ease;
+    width: 100%;
+}
+[data-testid="stSidebar"] .stButton > button:hover {
+    background: #F1F5F9;
+    border-color: #CBD5E1;
+    color: #1E293B;
+}
+
+/* ── 메인 컨텐츠 여백 ── */
+.main .block-container {
+    padding: 36px 48px 24px 48px;
+    max-width: 900px;
+}
+
+/* ── 페이지 헤더 ── */
+.page-header { margin-bottom: 28px; }
+.page-header h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.02em;
+}
+.page-header p {
+    font-size: 0.88rem;
+    color: #64748B;
+    margin: 0;
+}
+
+/* ── 구분선 ── */
+.divider {
+    border: none;
+    border-top: 1px solid #E2E8F0;
+    margin: 20px 0;
+}
+
+/* ── 자주 묻는 질문 레이블 ── */
+.faq-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #94A3B8;
+    margin-bottom: 10px;
+}
+
+/* ── 자주 묻는 질문 버튼 ── */
+.main .stButton > button {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    color: #334155;
+    font-size: 0.82rem;
+    font-weight: 500;
+    border-radius: 999px;
+    padding: 6px 14px;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+.main .stButton > button:hover {
+    background: #EFF6FF;
+    border-color: #BFDBFE;
+    color: #1D4ED8;
+}
+
+/* ── 채팅 메시지 ── */
+[data-testid="stChatMessage"] {
+    background: transparent;
+    border: none;
+    padding: 4px 0;
+}
+[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] p {
+    font-size: 0.90rem;
+    line-height: 1.65;
+    color: #1E293B;
+    margin: 0;
+}
+
+/* ── 채팅 입력창 ── */
+[data-testid="stChatInput"] {
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+[data-testid="stChatInput"]:focus-within {
+    border-color: #3B82F6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12) !important;
+}
