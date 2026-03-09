@@ -10,6 +10,7 @@ from components.header import render_header, render_quick_questions
 QUICK_QUESTIONS: list[str] = [
     "진료 시간이 어떻게 되나요?",
     "주차장 이용 안내",
+    "입원 절차 안내"
 ]
 
 # ── 페이지 설정 ───────────────────────────────────────────────

@@ -12,13 +12,23 @@ def render_header() -> None:
     )
 
 
+def _text_width(text: str) -> int:
+    """한글/CJK 문자는 2, 나머지는 1로 계산하여 픽셀 너비를 추정합니다."""
+    return sum(2 if ord(c) > 127 else 1 for c in text)
+
+
 def render_quick_questions(questions: list[str]) -> None:
     """자주 묻는 질문 버튼을 렌더링합니다."""
     st.markdown('<p class="faq-label">자주 묻는 질문</p>', unsafe_allow_html=True)
 
-    cols = st.columns([1.2, 1.2, 2.6])
+    # 한글 문자 너비를 2로 환산한 가중치로 컬럼 배분 (여백 컬럼은 최대 버튼 너비와 동일)
+    weights = [_text_width(q) for q in questions]
+    column_weights = weights + [max(weights)]
+    cols = st.columns(column_weights, gap="small")
+
     for i, question in enumerate(questions):
-        if cols[i].button(question, key=f"qq_{i}"):
-            st.session_state["quick_question"] = question
+        with cols[i]:
+            if st.button(question, key=f"quick_q_{i}", use_container_width=True):
+                st.session_state["quick_question"] = question
 
     st.markdown('<hr class="divider">', unsafe_allow_html=True)
