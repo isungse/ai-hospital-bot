@@ -21,7 +21,9 @@ ai-hospital/
 ├── requirements.txt              # 핵심 패키지 4개 명시
 ├── data/
 │   ├── hospital_info.md          # 병원 운영정보 학습 데이터
-│   └── doctors_list.csv          # 의료진 명단 (40명)
+│   ├── doctors_list.csv          # 의료진 명단 (40명)
+│   ├── mri_ct_fees.csv           # CT 보험수가 (113개 항목)
+│   └── mri_fees.csv              # MRI 보험수가 (338개 항목, 급여/비급여)
 └── src/
     ├── app.py                    # 메인 엔트리 포인트
     ├── ai_engine.py              # Gemini AI 엔진
@@ -88,6 +90,29 @@ streamlit run src/app.py
 ### 7단계 - 프로젝트 환경 설정
 - [x] `.gitattributes` 추가 (py, css, md 파일 LF 줄바꿈 강제)
 
+### 8단계 - CT/MRI 보험수가 학습 데이터 추가
+- [x] `data/mri_ct_fees.csv` 추가 (113개 CT 항목, 수가코드/한글명칭/보험수가)
+- [x] `data/mri_fees.csv` 추가 (338개 MRI 항목, 수가코드/한글명칭/보험수가/일반수가)
+- [x] `ai_engine.py`에 CT/MRI 수가 데이터 개별 로드 및 캐싱 (`_FEES_INFO`, `_MRI_FEES_INFO`) 추가
+- [x] 시스템 프롬프트에 `[CT 보험수가]`, `[MRI 보험수가]` 섹션 분리 추가
+- [x] MRI 급여/비급여 구분 안내 로직 추가 (보험수가 0 → 일반수가로 안내)
+- [x] 수가 데이터 주의사항 추가 (야간·응급·연령·난이도 가산 및 3T 장비 가산 미반영 명시)
+- [x] 조영제(CE) 사용 여부 고지 로직 추가
+- [x] `(HC)` → `건강검진` 용어 일괄 치환 (CT 11개, MRI 20개, 총 31개)
+
+### 9단계 - 프롬프트 고도화
+- [x] 필수 고지 문구 추가 (금액 안내 시 항상 출력)
+  - 보험 기본 단가 기준 추정값임을 명시
+  - 야간·응급·연령·가산·3T 장비 가산에 따른 실제 금액 차이 안내
+  - 원무팀/수납 창구 확인 안내
+- [x] 답변 형식 규칙 6가지 추가 (시스템 프롬프트 지시사항 6번)
+  - 문장 구조: 40자 이내, 정보 1개 per 문장
+  - 단락 구성: 2~3문장, 단락 간 줄 띄움
+  - 강조: 금액·핵심 단어 굵게, 주의사항 인용 블록
+  - 목록: 3개 이상 bullet/번호 목록
+  - 줄바꿈: bullet 항목 간 빈 줄 삽입
+  - 금지 표현: "~라고 할 수 있습니다", "~의 경우에는" 대체
+
 ---
 
 ## 자주 묻는 질문 버튼 현황
@@ -128,7 +153,7 @@ QUICK_QUESTIONS = [
 ## 알려진 이슈 및 주의사항
 
 - **모델 캐싱**: `ai_engine.py`의 `_CACHED_MODEL`은 앱 실행 중 메모리에 고정됨.
-  `hospital_info.md` 수정 후 반드시 **앱 재시작** 필요.
+  `hospital_info.md`, `mri_ct_fees.csv`, `mri_fees.csv` 수정 후 반드시 **앱 재시작** 필요.
 - **CSS 선택자**: Streamlit 버전에 따라 `.main` 클래스가 달라질 수 있음.
   현재 `.main .stButton > button` 선택자 사용 중.
 - **한글 버튼 너비**: `_text_width()` 함수로 한글(2) / ASCII(1) 너비 환산.
