@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(python:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(source venv/Scripts/activate 2>/dev/null || echo \"activation attempted\")",
+      "Bash(grep -v \"건강검진\" /c/Users/SPW/ai-project/ai-hospital/data/mri_ct_fees.csv > /c/Users/SPW/ai-project/ai-hospital/data/mri_ct_fees_tmp.csv && mv /c/Users/SPW/ai-project/ai-hospital/data/mri_ct_fees_tmp.csv /c/Users/SPW/ai-project/ai-hospital/data/mri_ct_fees.csv && grep -v \"건강검진\" /c/Users/SPW/ai-project/ai-hospital/data/mri_fees.csv > /c/Users/SPW/ai-project/ai-hospital/data/mri_fees_tmp.csv && mv /c/Users/SPW/ai-project/ai-hospital/data/mri_fees_tmp.csv /c/Users/SPW/ai-project/ai-hospital/data/mri_fees.csv)"
     ]
   }
 }

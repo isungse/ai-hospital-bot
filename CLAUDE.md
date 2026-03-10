@@ -22,8 +22,8 @@ ai-hospital/
 ├── data/
 │   ├── hospital_info.md          # 병원 운영정보 학습 데이터
 │   ├── doctors_list.csv          # 의료진 명단 (40명)
-│   ├── mri_ct_fees.csv           # CT 보험수가 (113개 항목)
-│   └── mri_fees.csv              # MRI 보험수가 (338개 항목, 급여/비급여)
+│   ├── mri_ct_fees.csv           # CT 보험수가 (102개 항목)
+│   └── mri_fees.csv              # MRI 보험수가 (317개 항목, 급여/비급여)
 └── src/
     ├── app.py                    # 메인 엔트리 포인트
     ├── ai_engine.py              # Gemini AI 엔진
@@ -91,14 +91,14 @@ streamlit run src/app.py
 - [x] `.gitattributes` 추가 (py, css, md 파일 LF 줄바꿈 강제)
 
 ### 8단계 - CT/MRI 보험수가 학습 데이터 추가
-- [x] `data/mri_ct_fees.csv` 추가 (113개 CT 항목, 수가코드/한글명칭/보험수가)
-- [x] `data/mri_fees.csv` 추가 (338개 MRI 항목, 수가코드/한글명칭/보험수가/일반수가)
+- [x] `data/mri_ct_fees.csv` 추가 (102개 CT 항목, 수가코드/한글명칭/보험수가)
+- [x] `data/mri_fees.csv` 추가 (317개 MRI 항목, 수가코드/한글명칭/보험수가/일반수가)
 - [x] `ai_engine.py`에 CT/MRI 수가 데이터 개별 로드 및 캐싱 (`_FEES_INFO`, `_MRI_FEES_INFO`) 추가
 - [x] 시스템 프롬프트에 `[CT 보험수가]`, `[MRI 보험수가]` 섹션 분리 추가
 - [x] MRI 급여/비급여 구분 안내 로직 추가 (보험수가 0 → 일반수가로 안내)
 - [x] 수가 데이터 주의사항 추가 (야간·응급·연령·난이도 가산 및 3T 장비 가산 미반영 명시)
 - [x] 조영제(CE) 사용 여부 고지 로직 추가
-- [x] `(HC)` → `건강검진` 용어 일괄 치환 (CT 11개, MRI 20개, 총 31개)
+- [x] `(HC)` → `건강검진` 용어 일괄 치환 후 전체 삭제 (CT 11개, MRI 20개, 총 31개 제거 — 진료비 0원으로 안내 불필요)
 
 ### 9단계 - 프롬프트 고도화
 - [x] 필수 고지 문구 추가 (금액 안내 시 항상 출력)
