@@ -5,6 +5,9 @@
 - **목표**: 프로토타입 → Production-ready 상업용 서비스 고도화
 - **AI 엔진**: Google Gemini 1.5 Flash
 - **UI 프레임워크**: Streamlit
+- **배포**: Streamlit Cloud
+- **라이브 URL**: https://ptsm-ai-bot.streamlit.app/
+- **GitHub**: https://github.com/isungse/ai-hospital-bot (Public)
 
 ---
 
@@ -136,6 +139,11 @@ streamlit run src/app.py
   - 🕐 시간 안내
   - ⚠️ 주의·유의 사항
   - ✔ bullet 목록 항목
+
+### 12단계 - Streamlit Cloud 배포 (2026-03-13)
+- [x] `requirements.txt` 버전 고정 해제 (Streamlit Cloud 호환)
+- [x] GitHub 리포지토리 Public 전환
+- [x] Streamlit Cloud 배포 완료 (`https://ptsm-ai-bot.streamlit.app/`)
 
 ---
 
