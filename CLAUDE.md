@@ -131,34 +131,67 @@ streamlit run src/app.py
   - 5호기 엘리베이터 전용 이동 (다른 엘리베이터 이용 불가 명시)
 
 ### 11단계 - 프롬프트 가독성 개선
-- [x] 마침표(.) 뒤 줄바꿈 규칙 추가 (두 문장 한 줄 이어쓰기 금지)
-- [x] 기호 사용 규칙 추가 (답변 내용 앞 기호 의무화)
-  - ▶ 일반 안내 문장
-  - 💰 금액·비용 정보
-  - 📍 위치 안내
-  - 🕐 시간 안내
-  - ⚠️ 주의·유의 사항
-  - ✔ bullet 목록 항목
+- [x] 답변 형식 규칙 6가지 추가 (줄바꿈, 기호, 문장 구조 등)
+- [x] 답변 형식 규칙 전체 삭제 — Gemini 기본 포맷으로 변경 (커스텀 규칙이 오히려 출력 품질 저하)
 
 ### 12단계 - Streamlit Cloud 배포 (2026-03-13)
 - [x] `requirements.txt` 버전 고정 해제 (Streamlit Cloud 호환)
 - [x] GitHub 리포지토리 Public 전환
 - [x] Streamlit Cloud 배포 완료 (`https://ptsm-ai-bot.streamlit.app/`)
 
+### 13단계 - UI/UX 전면 개선 (2026-03-14)
+
+#### 컬러 시스템 (CSS Custom Properties)
+- [x] 의료 신뢰 블루 기반 컬러 토큰 정의 (`--primary: #0F4C9A`, `--primary-light: #E6F1FB` 등)
+- [x] WCAG AA 대비율 ≥ 4.5:1 준수
+- [x] `config.toml` 테마 컬러 동기화 (`primaryColor: #0F4C9A`, `secondaryBackgroundColor: #F5F7FA`)
+
+#### 사이드바 경량화
+- [x] 진료 시간표를 사이드바에서 제거 → 메인 `st.expander`로 이동
+- [x] 사이드바 구성: 병원명 + 상태 배지 + 대표전화(`031-1800-8800`) + 응급실 + 설정
+- [x] 컴포넌트 간 상하 간격 확대 (`28px` spacer 삽입)
+
+#### 진료 시간 안내 (st.expander)
+- [x] 메인 콘텐츠 상단에 `st.expander` 배치 (`expanded=False`)
+- [x] HTML 테이블(`schedule-table`) 기반 시간표 렌더링
+- [x] Primary 블루 테두리 + 연한 블루 배경으로 시각적 강조
+- [x] 텍스트 색상 고대비 네이비(`#0A3470`) 적용
+- [x] 👉 이모지로 클릭 유도 표현
+
+#### 채팅 버블 디자인
+- [x] AI 버블: `#E6F1FB` 배경 + `3px solid #0F4C9A` 좌측 보더
+- [x] User 버블: `#0F4C9A` 배경 + 흰색 텍스트 + 우측 정렬
+- [x] 리스트 카드 스타일 (white bg, 0.5px border, 8px radius)
+- [x] 인라인 코드 강조 칩 (`#FFF3E0` bg, `#E65100` text)
+- [x] blockquote 주의사항 블록 (오렌지 강조)
+
+#### 반응형 레이아웃 (CSS 미디어 쿼리)
+- [x] `< 768px` (모바일): 패딩 축소, `safe-area-inset-bottom` 적용
+- [x] `768–1024px` (태블릿/키오스크): 폰트 +2px
+- [x] `≥ 1024px` (데스크톱): `max-width: 960px`
+- [x] `initial_sidebar_state: "auto"` (모바일 자동 숨김)
+
+#### 타이포그래피
+- [x] 페이지 헤더: `1.5rem / 700 / Primary`
+- [x] 본문: `0.90rem / 400 / line-height 1.7`
+- [x] 보조 텍스트: `0.75rem / 600 / Text Muted`
+
 ---
 
 ## 자주 묻는 질문 버튼 현황
 
 ```python
+# app.py에서 정의
 QUICK_QUESTIONS = [
     "진료 시간이 어떻게 되나요?",
     "주차장 이용 안내",
-    "입원 절차 안내",        # 학습 데이터 등록 완료
+    "입원 절차 안내",
 ]
 ```
 
 > 버튼 추가 시 `app.py`의 `QUICK_QUESTIONS` 리스트만 수정하면 됩니다.
-> 컬럼 너비는 `header.py`의 `_text_width()` 함수가 한글 너비를 자동 계산합니다.
+> 컬럼 너비는 `app.py`의 `_text_width()` 함수가 한글 너비를 자동 계산합니다.
+> 버튼 스타일 수정: `src/styles/main.css` → `.main .stButton > button` 섹션
 
 ---
 
@@ -177,7 +210,6 @@ QUICK_QUESTIONS = [
 - [ ] 식이 관련 안내 (특식, 금식 등)
 
 ### 디자인
-- [ ] 모바일/태블릿 반응형 대응
 - [ ] 다국어 지원 (영어, 외국어 안내)
 
 ---
@@ -190,6 +222,8 @@ QUICK_QUESTIONS = [
   현재 `.main .stButton > button` 선택자 사용 중.
 - **한글 버튼 너비**: `_text_width()` 함수로 한글(2) / ASCII(1) 너비 환산.
   버튼 추가 시 자동 적용되므로 별도 수정 불필요.
+- **st.columns 버튼 간격 제한**: Streamlit `st.columns`는 `gap="small"` (약 16px)이 최소값.
+  CSS `!important`로도 인라인 JS width 오버라이드 불가 — 8px 간격 구현은 Streamlit 구조적 한계.
 
 ---
 

@@ -1,42 +1,76 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* ── 전역 폰트 ── */
+/* ══════════════════════════════════════════════════════════
+   COLOR SYSTEM — CSS Custom Properties (WCAG AA ≥ 4.5:1)
+   ══════════════════════════════════════════════════════════ */
+:root {
+    --primary:        #0F4C9A;
+    --primary-light:  #E6F1FB;
+    --primary-hover:  #0D3F82;
+    --success:        #2E7D32;
+    --success-bg:     #E8F5E9;
+    --surface:        #F5F7FA;
+    --surface-border: #E2E8F0;
+    --text-primary:   #1A1A2E;
+    --text-secondary: #6B7280;
+    --text-muted:     #94A3B8;
+    --accent:         #E53935;
+    --accent-bg:      #FFF1F2;
+    --accent-border:  #FECDD3;
+    --white:          #FFFFFF;
+    --chat-user-bg:   #0F4C9A;
+    --chat-ai-bg:     #E6F1FB;
+    --chat-ai-border: #0F4C9A;
+    --highlight-bg:   #FFF3E0;
+    --highlight-text: #E65100;
+}
+
+/* ══════════════════════════════════════════════════════════
+   GLOBAL FONT
+   ══════════════════════════════════════════════════════════ */
 html, body, [class*="css"], .stMarkdown, .stText, button, input, textarea {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 
-/* ── 앱 배경 ── */
-.stApp { background-color: #F8FAFC; }
+/* ══════════════════════════════════════════════════════════
+   APP BACKGROUND
+   ══════════════════════════════════════════════════════════ */
+.stApp { background-color: var(--surface); }
 
-/* ── 사이드바 ── */
+/* ══════════════════════════════════════════════════════════
+   SIDEBAR
+   ══════════════════════════════════════════════════════════ */
 [data-testid="stSidebar"] {
-    background-color: #FFFFFF;
-    border-right: 1px solid #E2E8F0;
+    background-color: var(--white);
+    border-right: 1px solid var(--surface-border);
 }
-[data-testid="stSidebar"] > div:first-child { padding: 28px 20px; }
+[data-testid="stSidebar"] > div:first-child {
+    padding: 28px 20px;
+}
 
-/* ── 사이드바 섹션 제목 ── */
+/* ── Sidebar section title ── */
 .sb-section-title {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #94A3B8;
+    color: var(--text-muted);
     margin: 36px 0 14px 0;
 }
 
-/* ── 진료 상태 배지 (동적 색상은 CSS 변수로 주입) ── */
+/* ── Status badge (dynamic colors via CSS vars) ── */
 .status-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     background: var(--status-bg);
     color: var(--status-color);
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 999px;
     margin-top: 6px;
+    margin-bottom: 10px;
 }
 .status-dot {
     width: 7px;
@@ -47,94 +81,158 @@ html, body, [class*="css"], .stMarkdown, .stText, button, input, textarea {
 }
 @keyframes pulse {
     0%, 100% { opacity: 1; }
-    50%       { opacity: 0.3; }
+    50%      { opacity: 0.3; }
 }
 
-/* ── 시간표 행 ── */
-.hour-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 11px 0;
-    border-bottom: 1px solid #F1F5F9;
-    font-size: 0.93rem;
-}
-.hour-row:last-child { border-bottom: none; }
-.hour-label  { color: #64748B; }
-.hour-value  { font-size: 1.2rem; font-weight: 500; color: #1E293B; letter-spacing: 0.02em; }
-.hour-closed { font-weight: 600; color: #DC2626; }
-
-/* ── 응급 배너 ── */
+/* ── Emergency banner ── */
 .emergency-strip {
-    background: #FFF1F2;
-    border: 1px solid #FECDD3;
-    border-left: 3px solid #DC2626;
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    border-left: 3px solid var(--accent);
     border-radius: 8px;
     padding: 10px 14px;
-    font-size: 0.93rem;
+    font-size: 0.88rem;
     color: #9F1239;
     font-weight: 500;
     margin-top: 4px;
     margin-bottom: 20px;
 }
 
-/* ── 사이드바 버튼 ── */
+/* ── Sidebar button ── */
 [data-testid="stSidebar"] .stButton > button {
     background: transparent;
-    border: 1px solid #E2E8F0;
-    color: #64748B;
-    font-size: 0.90rem;
+    border: 1px solid var(--surface-border);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
     font-weight: 500;
     border-radius: 8px;
-    padding: 6px 12px;
+    padding: 8px 12px;
     transition: all 0.15s ease;
     width: 100%;
 }
 [data-testid="stSidebar"] .stButton > button:hover {
-    background: #F1F5F9;
+    background: var(--surface);
     border-color: #CBD5E1;
-    color: #1E293B;
+    color: var(--text-primary);
 }
 
-/* ── 메인 컨텐츠 여백 ── */
+/* ══════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ══════════════════════════════════════════════════════════ */
 .main .block-container {
-    padding: 36px 48px 24px 48px;
-    max-width: 900px;
+    padding: 32px 48px 24px 48px;
+    max-width: 960px;
 }
 
-/* ── 페이지 헤더 ── */
-.page-header { margin-bottom: 28px; }
+/* ══════════════════════════════════════════════════════════
+   PAGE HEADER — Typography scale
+   ══════════════════════════════════════════════════════════ */
+.page-header {
+    margin-bottom: 20px;
+}
 .page-header h2 {
-    font-size: 1.45rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: #0F172A;
+    color: var(--primary);
     margin: 0 0 4px 0;
     letter-spacing: -0.02em;
 }
 .page-header p {
     font-size: 0.88rem;
-    color: #64748B;
+    color: var(--text-secondary);
     margin: 0;
+    line-height: 1.5;
 }
 
-/* ── 구분선 ── */
+/* ══════════════════════════════════════════════════════════
+   DIVIDER
+   ══════════════════════════════════════════════════════════ */
 .divider {
     border: none;
-    border-top: 1px solid #E2E8F0;
-    margin: 20px 0;
+    border-top: 1px solid var(--surface-border);
+    margin: 16px 0;
 }
 
-/* ── 자주 묻는 질문 레이블 ── */
+/* ══════════════════════════════════════════════════════════
+   CLINIC SCHEDULE EXPANDER — 접힌 상태에서도 눈에 띄는 강조 스타일
+   ══════════════════════════════════════════════════════════ */
+.schedule-expander-wrap [data-testid="stExpander"] {
+    border: 1.5px solid var(--primary) !important;
+    border-radius: 10px !important;
+    background: var(--primary-light) !important;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(15, 76, 154, 0.10);
+    transition: box-shadow 0.2s ease;
+}
+.schedule-expander-wrap [data-testid="stExpander"]:hover {
+    box-shadow: 0 4px 14px rgba(15, 76, 154, 0.16);
+}
+/* Summary (header) — 배경 대비 고대비 텍스트 */
+.schedule-expander-wrap [data-testid="stExpander"] summary {
+    color: #0A3470 !important;
+    font-weight: 700 !important;
+    font-size: 0.92rem !important;
+    padding: 14px 18px !important;
+}
+.schedule-expander-wrap [data-testid="stExpander"] summary span,
+.schedule-expander-wrap [data-testid="stExpander"] summary p {
+    color: #0A3470 !important;
+}
+/* 펼쳐진 내부 배경은 흰색 */
+.schedule-expander-wrap [data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+    background: var(--white);
+    border-top: 1px solid rgba(15, 76, 154, 0.15);
+    border-radius: 0 0 10px 10px;
+    padding: 4px 8px 8px 8px;
+}
+
+/* Schedule table styling */
+.schedule-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.88rem;
+}
+.schedule-table thead th {
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--surface-border);
+}
+.schedule-table thead th:first-child { border-radius: 8px 0 0 0; }
+.schedule-table thead th:last-child  { border-radius: 0 8px 0 0; }
+.schedule-table tbody td {
+    padding: 10px 14px;
+    color: var(--text-primary);
+    font-weight: 500;
+    border-bottom: 1px solid #F1F5F9;
+}
+.schedule-table tbody tr:last-child td { border-bottom: none; }
+.schedule-table .closed {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* ══════════════════════════════════════════════════════════
+   FAQ LABEL
+   ══════════════════════════════════════════════════════════ */
 .faq-label {
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #94A3B8;
-    margin-bottom: 10px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
 }
 
-/* ── 자주 묻는 질문 버튼 ── */
+/* ══════════════════════════════════════════════════════════
+   FAQ BUTTONS — pill 스타일
+   ══════════════════════════════════════════════════════════ */
 .main .stButton > button {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
@@ -153,27 +251,250 @@ html, body, [class*="css"], .stMarkdown, .stText, button, input, textarea {
     color: #1D4ED8;
 }
 
-/* ── 채팅 메시지 ── */
+/* ══════════════════════════════════════════════════════════
+   CHAT MESSAGES — Distinct AI vs User bubbles
+   ══════════════════════════════════════════════════════════ */
+
+/* Common chat message reset */
 [data-testid="stChatMessage"] {
     background: transparent;
     border: none;
-    padding: 4px 0;
-}
-[data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] p {
-    font-size: 0.90rem;
-    line-height: 1.65;
-    color: #1E293B;
-    margin: 0;
+    padding: 6px 0;
 }
 
-/* ── 채팅 입력창 ── */
+/* AI bubble */
+[data-testid="stChatMessage"][data-testid-type="assistant"],
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
+    background: var(--chat-ai-bg) !important;
+    border-left: 3px solid var(--chat-ai-border) !important;
+    border-radius: 0 12px 12px 12px !important;
+    padding: 14px 18px !important;
+    margin: 4px 0 !important;
+}
+
+/* User bubble */
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
+    background: var(--chat-user-bg) !important;
+    border-radius: 12px 0 12px 12px !important;
+    padding: 14px 18px !important;
+    margin: 4px 0 4px auto !important;
+    max-width: 85%;
+    margin-left: auto !important;
+}
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) [data-testid="stMarkdownContainer"] p {
+    color: var(--white) !important;
+}
+/* Hide user avatar for cleaner look */
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) [data-testid="chatAvatarIcon-user"] {
+    display: none;
+}
+
+/* AI response text */
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) [data-testid="stMarkdownContainer"] p {
+    font-size: 0.90rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+}
+/* AI response lists — card-style */
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) [data-testid="stMarkdownContainer"] ul,
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) [data-testid="stMarkdownContainer"] ol {
+    background: var(--white);
+    border: 0.5px solid var(--surface-border);
+    border-radius: 8px;
+    padding: 12px 12px 12px 32px;
+    margin: 8px 0;
+}
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) [data-testid="stMarkdownContainer"] li {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--text-primary);
+    padding: 2px 0;
+}
+
+/* AI response strong text (emphasis) */
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) [data-testid="stMarkdownContainer"] strong {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* AI response blockquote — for warnings/notices */
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) [data-testid="stMarkdownContainer"] blockquote {
+    background: var(--highlight-bg);
+    border-left: 3px solid var(--highlight-text);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 0.85rem;
+    color: var(--highlight-text);
+}
+
+/* AI response code/inline — for phone numbers, account numbers */
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) [data-testid="stMarkdownContainer"] code {
+    background: var(--highlight-bg);
+    color: var(--highlight-text);
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-family: 'Inter', monospace;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: none;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CHAT INPUT
+   ══════════════════════════════════════════════════════════ */
 [data-testid="stChatInput"] {
-    border: 1px solid #E2E8F0 !important;
+    border: 1.5px solid var(--surface-border) !important;
     border-radius: 12px !important;
-    background: #FFFFFF !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    background: var(--white) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04) !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 [data-testid="stChatInput"]:focus-within {
-    border-color: #3B82F6 !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(15, 76, 154, 0.12) !important;
 }
+
+/* ══════════════════════════════════════════════════════════
+   EXPANDER STYLING
+   ══════════════════════════════════════════════════════════ */
+[data-testid="stExpander"] {
+    border: 1px solid var(--surface-border) !important;
+    border-radius: 10px !important;
+    background: var(--white) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+[data-testid="stExpander"] summary {
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--text-primary);
+    padding: 12px 16px;
+}
+[data-testid="stExpander"] summary:hover {
+    color: var(--primary);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SIDEBAR INFO CARD
+   ══════════════════════════════════════════════════════════ */
+.sidebar-info-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 14px;
+    margin: 16px 0 8px 0;
+}
+.sidebar-info-card .info-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+.sidebar-info-card .info-value {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+.sidebar-info-card .info-highlight {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE — MOBILE (< 768px)
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    /* Reduce main content padding */
+    .main .block-container {
+        padding: 20px 16px 16px 16px !important;
+        max-width: 100%;
+    }
+
+    /* Header sizing */
+    .page-header h2 {
+        font-size: 1.25rem;
+    }
+    .page-header p {
+        font-size: 0.82rem;
+    }
+
+    /* FAQ buttons — vertical stack */
+    .main .stButton > button {
+        font-size: 0.82rem;
+        padding: 10px 14px;
+        width: 100% !important;
+    }
+
+    /* Chat bubbles — full width */
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
+        max-width: 95%;
+    }
+    [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
+        padding: 10px 14px !important;
+    }
+
+    /* Chat input safe area */
+    [data-testid="stChatInput"] {
+        padding-bottom: env(safe-area-inset-bottom, 8px) !important;
+    }
+
+    /* Schedule table */
+    .schedule-table {
+        font-size: 0.82rem;
+    }
+    .schedule-table thead th,
+    .schedule-table tbody td {
+        padding: 8px 10px;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE — TABLET / KIOSK (768px – 1024px)
+   ══════════════════════════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .main .block-container {
+        padding: 28px 32px 20px 32px;
+        max-width: 100%;
+    }
+
+    .page-header h2 {
+        font-size: 1.4rem;
+    }
+
+    /* Slightly larger body text for kiosk readability */
+    [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] p {
+        font-size: 0.95rem !important;
+    }
+
+    .main .stButton > button {
+        font-size: 0.90rem;
+        padding: 10px 16px;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE — DESKTOP (≥ 1024px)
+   ══════════════════════════════════════════════════════════ */
+@media (min-width: 1025px) {
+    .main .block-container {
+        max-width: 960px;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════
+   HOUR ROW (still used in sidebar if needed)
+   ══════════════════════════════════════════════════════════ */
+.hour-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #F1F5F9;
+    font-size: 0.88rem;
+}
+.hour-row:last-child { border-bottom: none; }
+.hour-label  { color: var(--text-secondary); }
+.hour-value  { font-weight: 500; color: var(--text-primary); letter-spacing: 0.02em; }
+.hour-closed { font-weight: 600; color: var(--accent); }

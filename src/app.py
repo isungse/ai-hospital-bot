@@ -4,13 +4,13 @@ from pathlib import Path
 from ai_engine import get_hospital_response
 from utils.clinic_status import get_clinic_status, get_status_theme
 from components.sidebar import render_sidebar
-from components.header import render_header, render_quick_questions
+from components.header import render_header, render_schedule
 
 # ── 자주 묻는 질문 목록 (추가 시 이곳만 수정) ────────────────
 QUICK_QUESTIONS: list[str] = [
     "진료 시간이 어떻게 되나요?",
     "주차장 이용 안내",
-    "입원 절차 안내"
+    "입원 절차 안내",
 ]
 
 # ── 페이지 설정 ───────────────────────────────────────────────
@@ -18,7 +18,7 @@ st.set_page_config(
     page_title="평택성모병원 AI 안내",
     page_icon="🏥",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 
 # ── 진료 상태 계산 ────────────────────────────────────────────
@@ -43,7 +43,24 @@ with st.sidebar:
 
 # ── 메인 레이아웃 ─────────────────────────────────────────────
 render_header()
-render_quick_questions(QUICK_QUESTIONS)
+render_schedule()
+
+# ── 자주 묻는 질문 ─────────────────────────────────────────────
+st.markdown('<p class="faq-label">자주 묻는 질문</p>', unsafe_allow_html=True)
+
+def _text_width(text: str) -> int:
+    return sum(2 if ord(c) > 127 else 1 for c in text)
+
+weights = [_text_width(q) for q in QUICK_QUESTIONS]
+column_weights = weights + [max(weights)]
+cols = st.columns(column_weights, gap="small")
+
+for i, question in enumerate(QUICK_QUESTIONS):
+    with cols[i]:
+        if st.button(question, key=f"quick_q_{i}", use_container_width=True):
+            st.session_state["quick_question"] = question
+
+st.markdown('<hr class="divider">', unsafe_allow_html=True)
 
 # ── 세션 초기화 ───────────────────────────────────────────────
 if "messages" not in st.session_state:

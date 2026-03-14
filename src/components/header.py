@@ -12,23 +12,63 @@ def render_header() -> None:
     )
 
 
-def _text_width(text: str) -> int:
-    """한글/CJK 문자는 2, 나머지는 1로 계산하여 픽셀 너비를 추정합니다."""
-    return sum(2 if ord(c) > 127 else 1 for c in text)
+# ── 진료 시간 데이터 ──────────────────────────────────────────
+SCHEDULE_HTML = """
+<table class="schedule-table">
+<thead>
+    <tr>
+        <th>구분</th>
+        <th>평일</th>
+        <th>토요일</th>
+        <th>공휴일</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>일반 진료</td>
+        <td>08:30 – 17:30</td>
+        <td>08:30 – 13:00</td>
+        <td>08:30 – 13:00</td>
+    </tr>
+    <tr>
+        <td>종합검진</td>
+        <td>07:30 – 17:00</td>
+        <td>07:30 – 12:30</td>
+        <td class="closed">휴진</td>
+    </tr>
+    <tr>
+        <td>기업검진</td>
+        <td>08:00 – 17:00</td>
+        <td>08:00 – 12:30</td>
+        <td class="closed">휴진</td>
+    </tr>
+    <tr>
+        <td>일요일</td>
+        <td class="closed" colspan="3" style="text-align:center;">휴진</td>
+    </tr>
+</tbody>
+</table>
+"""
+
+
+def render_schedule() -> None:
+    """진료 시간표를 expander로 렌더링합니다."""
+    st.markdown('<div class="schedule-expander-wrap">', unsafe_allow_html=True)
+    with st.expander("👉 진료 시간 안내", expanded=False):
+        st.markdown(SCHEDULE_HTML, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 def render_quick_questions(questions: list[str]) -> None:
-    """자주 묻는 질문 버튼을 렌더링합니다."""
+    """자주 묻는 질문 버튼을 렌더링합니다. (flexbox 기반 자동 너비)"""
     st.markdown('<p class="faq-label">자주 묻는 질문</p>', unsafe_allow_html=True)
 
-    # 한글 문자 너비를 2로 환산한 가중치로 컬럼 배분 (여백 컬럼은 최대 버튼 너비와 동일)
-    weights = [_text_width(q) for q in questions]
-    column_weights = weights + [max(weights)]
-    cols = st.columns(column_weights, gap="small")
-
+    # CSS 마커 → 바로 다음 stHorizontalBlock을 flexbox로 변환
+    st.markdown('<div class="faq-flex-marker"></div>', unsafe_allow_html=True)
+    cols = st.columns(len(questions))
     for i, question in enumerate(questions):
         with cols[i]:
-            if st.button(question, key=f"quick_q_{i}", use_container_width=True):
+            if st.button(question, key=f"quick_q_{i}"):
                 st.session_state["quick_question"] = question
 
     st.markdown('<hr class="divider">', unsafe_allow_html=True)
